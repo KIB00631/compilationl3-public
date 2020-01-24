@@ -3,11 +3,45 @@ Package sc;
 Helpers
 
 lettre = [['a' .. 'z'] + ['A' .. 'Z']];
+alpha = [lettre + ['_' + '$']];
+chiffre = ['0' .. '9'];
+alphanum = [lettre + chiffre];
 
 Tokens
 
 espaces = (' ' | 13 | 10)+;
-commentaire= '#' [[0 .. 0xffff] - [10 + 13]]* (10 | 13 | 10 13);
+commentaire = '#' [[0 .. 0xffff] - [10 + 13]]* (10 | 13 | 10 13);
+si = 'si';
+alors = 'alors';
+sinon = 'sinon';
+tantque = 'tant que';
+faire = 'faire';
+entier = 'entier';
+retour = 'retour';
+lire = 'lire';
+ecrire = 'ecrire';
+
+point_virgule = ';';
+plus = '+';
+moins = '-';
+fois = '*';
+divise = '/';
+parenthese_ouvrante = '(';
+parenthese_fermante = ')';
+crochet_ouvrant = '[';
+crochet_fermant = ']';
+accolade_ouvrante = '{';
+accolade_fermante = '}';
+egal = '=';
+inferieur = '<';
+et = '&';
+ou = '|';
+non = '!';
+virgule = ',';
+nombre = chiffre+;
+identif = alpha alphanum*;
+
+
 
 Ignored Tokens
 
@@ -15,5 +49,95 @@ espaces, commentaire;
 
 Productions
 
-programme = optdecvar listedecfonc ;
+programme = base listdecfonction ;
 
+base = {decvar} decvar |
+        {void} ;
+listdecfonction = {decfonctionboucle} decfonction listdecfonction |
+                    {decfonction} decfonction;
+exp = {ou} exp ou exp2 |
+        {exp2} exp2;
+
+exp2 = {et} exp2 et exp3 |
+        {exp3} exp3;
+
+exp3 = {egal} exp3 egal exp4 |
+        {inferieur} exp3 inferieur exp4|
+         {exp4} exp4;
+
+exp4 = {plus} exp4 plus exp5 |
+        {moins} exp4 moins exp5 |
+        {exp5} exp5;
+
+exp5 = {fois} exp5 fois exp6 |
+        {divise} exp5 divise exp6 |
+        {exp6} exp6;
+
+exp6 = {non} non exp6 |
+        {exp7} exp7;
+
+exp7 = {parenthese} parenthese_ouvrante exp7 parenthese_fermante |
+        {fct} fct |
+        {nombre} nombre |
+        {var} var |
+        {lire} lire parenthese_ouvrante parenthese_fermante;
+
+fct = identif parenthese_ouvrante listeexp parenthese_fermante;
+
+listeexp = {listeexp} exp expbis |
+            {vide} ;
+
+expbis = {expbis} virgule exp expbis |
+            {vide};
+
+var = {var} identif |
+        {tab} identif crochet_ouvrant exp crochet_fermant;
+
+instr = {decvar} decvar |
+        {instraffect} instraffect |
+        {instrbloc} instrbloc |
+        {instrsi} instrsi |
+        {instrtantque} instrtantque |
+        {instrappel} instrappel |
+        {instrretour} instrretour |
+        {instrecriture} instrecriture |
+        {instrvide} instrvide;
+
+instraffect = var egal exp point_virgule;
+
+instrbloc = accolade_ouvrante b2 accolade_fermante;
+
+b2 = {listinstr} instr b2 |
+    {instrfin} instr;
+
+instrsi = si exp alors instrbloc s2;
+
+s2 = {sinonsi} sinon instrsi |
+        {sinon} sinon instrbloc |
+        {vide} ;
+
+instrtantque = tantque exp faire instrbloc;
+
+instrappel = identif parenthese_ouvrante listeexp parenthese_fermante point_virgule;
+
+instrretour = retour exp point_virgule;
+
+instrecriture = ecrire parenthese_ouvrante listeexp parenthese_fermante point_virgule;
+
+instrvide = point_virgule;
+
+dectab = {dectab} entier var dectab2 |
+         {vide} ;
+
+dectab2 = {dectab2} virgule dectab |
+          {vide} ;
+
+decvar = entier var decvar2;
+
+decvar2 = {decvar2} point_virgule |
+          {listdecvar} virgule decvar;
+
+decfonction = identif parenthese_ouvrante dectab parenthese_fermante decfonction2;
+
+decfonction2 = {intrbloc} instrbloc |
+               {listdecvar} decvar decfonction2;
