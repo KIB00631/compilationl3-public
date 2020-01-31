@@ -1,7 +1,7 @@
+import java.io.*;
 import sc.parser.*;
 import sc.lexer.*;
 import sc.node.*;
-import java.io.*;
 //import sa.*;
 //import ts.*;
 //import c3a.*;

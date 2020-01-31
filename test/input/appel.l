@@ -7,5 +7,3 @@ main()
 {
 ecrire(procedure(1, 2));
 }
-
-
