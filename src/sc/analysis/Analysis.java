@@ -38,10 +38,10 @@ public interface Analysis extends Switch
     void caseAInstrretour(AInstrretour node);
     void caseAInstrecriture(AInstrecriture node);
     void caseAInstrvide(AInstrvide node);
-    void caseADectabDectab(ADectabDectab node);
-    void caseAVideDectab(AVideDectab node);
-    void caseADectab2Dectab2(ADectab2Dectab2 node);
-    void caseAVideDectab2(AVideDectab2 node);
+    void caseADecparamParam(ADecparamParam node);
+    void caseAVideParam(AVideParam node);
+    void caseAParam2Param2(AParam2Param2 node);
+    void caseAVideParam2(AVideParam2 node);
     void caseADecvar(ADecvar node);
     void caseADecvar2Decvar2(ADecvar2Decvar2 node);
     void caseAListdecvarDecvar2(AListdecvarDecvar2 node);

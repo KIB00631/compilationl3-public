@@ -9,7 +9,7 @@ public final class ADecfonction extends PDecfonction
 {
     private TIdentif _identif_;
     private TParentheseOuvrante _parentheseOuvrante_;
-    private PDectab _dectab_;
+    private PParam _param_;
     private TParentheseFermante _parentheseFermante_;
     private PDecfonction2 _decfonction2_;
 
@@ -21,7 +21,7 @@ public final class ADecfonction extends PDecfonction
     public ADecfonction(
         @SuppressWarnings("hiding") TIdentif _identif_,
         @SuppressWarnings("hiding") TParentheseOuvrante _parentheseOuvrante_,
-        @SuppressWarnings("hiding") PDectab _dectab_,
+        @SuppressWarnings("hiding") PParam _param_,
         @SuppressWarnings("hiding") TParentheseFermante _parentheseFermante_,
         @SuppressWarnings("hiding") PDecfonction2 _decfonction2_)
     {
@@ -30,7 +30,7 @@ public final class ADecfonction extends PDecfonction
 
         setParentheseOuvrante(_parentheseOuvrante_);
 
-        setDectab(_dectab_);
+        setParam(_param_);
 
         setParentheseFermante(_parentheseFermante_);
 
@@ -44,7 +44,7 @@ public final class ADecfonction extends PDecfonction
         return new ADecfonction(
             cloneNode(this._identif_),
             cloneNode(this._parentheseOuvrante_),
-            cloneNode(this._dectab_),
+            cloneNode(this._param_),
             cloneNode(this._parentheseFermante_),
             cloneNode(this._decfonction2_));
     }
@@ -105,16 +105,16 @@ public final class ADecfonction extends PDecfonction
         this._parentheseOuvrante_ = node;
     }
 
-    public PDectab getDectab()
+    public PParam getParam()
     {
-        return this._dectab_;
+        return this._param_;
     }
 
-    public void setDectab(PDectab node)
+    public void setParam(PParam node)
     {
-        if(this._dectab_ != null)
+        if(this._param_ != null)
         {
-            this._dectab_.parent(null);
+            this._param_.parent(null);
         }
 
         if(node != null)
@@ -127,7 +127,7 @@ public final class ADecfonction extends PDecfonction
             node.parent(this);
         }
 
-        this._dectab_ = node;
+        this._param_ = node;
     }
 
     public TParentheseFermante getParentheseFermante()
@@ -186,7 +186,7 @@ public final class ADecfonction extends PDecfonction
         return ""
             + toString(this._identif_)
             + toString(this._parentheseOuvrante_)
-            + toString(this._dectab_)
+            + toString(this._param_)
             + toString(this._parentheseFermante_)
             + toString(this._decfonction2_);
     }
@@ -207,9 +207,9 @@ public final class ADecfonction extends PDecfonction
             return;
         }
 
-        if(this._dectab_ == child)
+        if(this._param_ == child)
         {
-            this._dectab_ = null;
+            this._param_ = null;
             return;
         }
 
@@ -244,9 +244,9 @@ public final class ADecfonction extends PDecfonction
             return;
         }
 
-        if(this._dectab_ == oldChild)
+        if(this._param_ == oldChild)
         {
-            setDectab((PDectab) newChild);
+            setParam((PParam) newChild);
             return;
         }
 

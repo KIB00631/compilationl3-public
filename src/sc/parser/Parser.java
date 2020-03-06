@@ -354,25 +354,25 @@ public class Parser
                 push(goTo(12), list, false);
             }
             break;
-            case 26: /* reduce ADectabDectab */
+            case 26: /* reduce ADecparamParam */
             {
                 ArrayList<Object> list = new26();
                 push(goTo(13), list, false);
             }
             break;
-            case 27: /* reduce AVideDectab */
+            case 27: /* reduce AVideParam */
             {
                 ArrayList<Object> list = new27();
                 push(goTo(13), list, false);
             }
             break;
-            case 28: /* reduce ADectab2Dectab2 */
+            case 28: /* reduce AParam2Param2 */
             {
                 ArrayList<Object> list = new28();
                 push(goTo(14), list, false);
             }
             break;
-            case 29: /* reduce AVideDectab2 */
+            case 29: /* reduce AVideParam2 */
             {
                 ArrayList<Object> list = new29();
                 push(goTo(14), list, false);
@@ -1177,83 +1177,83 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new26() /* reduce ADectabDectab */
+    ArrayList<Object> new26() /* reduce ADecparamParam */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
-        PDectab pdectabNode1;
+        PParam pparamNode1;
         {
             // Block
         TEntier tentierNode2;
         PVar pvarNode3;
-        PDectab2 pdectab2Node4;
+        PParam2 pparam2Node4;
         tentierNode2 = (TEntier)nodeArrayList1.get(0);
         pvarNode3 = (PVar)nodeArrayList2.get(0);
-        pdectab2Node4 = (PDectab2)nodeArrayList3.get(0);
+        pparam2Node4 = (PParam2)nodeArrayList3.get(0);
 
-        pdectabNode1 = new ADectabDectab(tentierNode2, pvarNode3, pdectab2Node4);
+        pparamNode1 = new ADecparamParam(tentierNode2, pvarNode3, pparam2Node4);
         }
-	nodeList.add(pdectabNode1);
+	nodeList.add(pparamNode1);
         return nodeList;
     }
 
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new27() /* reduce AVideDectab */
+    ArrayList<Object> new27() /* reduce AVideParam */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
-        PDectab pdectabNode1;
+        PParam pparamNode1;
         {
             // Block
 
-        pdectabNode1 = new AVideDectab();
+        pparamNode1 = new AVideParam();
         }
-	nodeList.add(pdectabNode1);
+	nodeList.add(pparamNode1);
         return nodeList;
     }
 
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new28() /* reduce ADectab2Dectab2 */
+    ArrayList<Object> new28() /* reduce AParam2Param2 */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
-        PDectab2 pdectab2Node1;
+        PParam2 pparam2Node1;
         {
             // Block
         TVirgule tvirguleNode2;
-        PDectab pdectabNode3;
+        PParam pparamNode3;
         tvirguleNode2 = (TVirgule)nodeArrayList1.get(0);
-        pdectabNode3 = (PDectab)nodeArrayList2.get(0);
+        pparamNode3 = (PParam)nodeArrayList2.get(0);
 
-        pdectab2Node1 = new ADectab2Dectab2(tvirguleNode2, pdectabNode3);
+        pparam2Node1 = new AParam2Param2(tvirguleNode2, pparamNode3);
         }
-	nodeList.add(pdectab2Node1);
+	nodeList.add(pparam2Node1);
         return nodeList;
     }
 
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new29() /* reduce AVideDectab2 */
+    ArrayList<Object> new29() /* reduce AVideParam2 */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
-        PDectab2 pdectab2Node1;
+        PParam2 pparam2Node1;
         {
             // Block
 
-        pdectab2Node1 = new AVideDectab2();
+        pparam2Node1 = new AVideParam2();
         }
-	nodeList.add(pdectab2Node1);
+	nodeList.add(pparam2Node1);
         return nodeList;
     }
 
@@ -1343,16 +1343,16 @@ public class Parser
             // Block
         TIdentif tidentifNode2;
         TParentheseOuvrante tparentheseouvranteNode3;
-        PDectab pdectabNode4;
+        PParam pparamNode4;
         TParentheseFermante tparenthesefermanteNode5;
         PDecfonction2 pdecfonction2Node6;
         tidentifNode2 = (TIdentif)nodeArrayList1.get(0);
         tparentheseouvranteNode3 = (TParentheseOuvrante)nodeArrayList2.get(0);
-        pdectabNode4 = (PDectab)nodeArrayList3.get(0);
+        pparamNode4 = (PParam)nodeArrayList3.get(0);
         tparenthesefermanteNode5 = (TParentheseFermante)nodeArrayList4.get(0);
         pdecfonction2Node6 = (PDecfonction2)nodeArrayList5.get(0);
 
-        pdecfonctionNode1 = new ADecfonction(tidentifNode2, tparentheseouvranteNode3, pdectabNode4, tparenthesefermanteNode5, pdecfonction2Node6);
+        pdecfonctionNode1 = new ADecfonction(tidentifNode2, tparentheseouvranteNode3, pparamNode4, tparenthesefermanteNode5, pdecfonction2Node6);
         }
 	nodeList.add(pdecfonctionNode1);
         return nodeList;

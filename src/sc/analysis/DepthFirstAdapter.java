@@ -674,20 +674,20 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outAInstrvide(node);
     }
 
-    public void inADectabDectab(ADectabDectab node)
+    public void inADecparamParam(ADecparamParam node)
     {
         defaultIn(node);
     }
 
-    public void outADectabDectab(ADectabDectab node)
+    public void outADecparamParam(ADecparamParam node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseADectabDectab(ADectabDectab node)
+    public void caseADecparamParam(ADecparamParam node)
     {
-        inADectabDectab(node);
+        inADecparamParam(node);
         if(node.getEntier() != null)
         {
             node.getEntier().apply(this);
@@ -696,70 +696,70 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getVar().apply(this);
         }
-        if(node.getDectab2() != null)
+        if(node.getParam2() != null)
         {
-            node.getDectab2().apply(this);
+            node.getParam2().apply(this);
         }
-        outADectabDectab(node);
+        outADecparamParam(node);
     }
 
-    public void inAVideDectab(AVideDectab node)
+    public void inAVideParam(AVideParam node)
     {
         defaultIn(node);
     }
 
-    public void outAVideDectab(AVideDectab node)
+    public void outAVideParam(AVideParam node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAVideDectab(AVideDectab node)
+    public void caseAVideParam(AVideParam node)
     {
-        inAVideDectab(node);
-        outAVideDectab(node);
+        inAVideParam(node);
+        outAVideParam(node);
     }
 
-    public void inADectab2Dectab2(ADectab2Dectab2 node)
+    public void inAParam2Param2(AParam2Param2 node)
     {
         defaultIn(node);
     }
 
-    public void outADectab2Dectab2(ADectab2Dectab2 node)
+    public void outAParam2Param2(AParam2Param2 node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseADectab2Dectab2(ADectab2Dectab2 node)
+    public void caseAParam2Param2(AParam2Param2 node)
     {
-        inADectab2Dectab2(node);
+        inAParam2Param2(node);
         if(node.getVirgule() != null)
         {
             node.getVirgule().apply(this);
         }
-        if(node.getDectab() != null)
+        if(node.getParam() != null)
         {
-            node.getDectab().apply(this);
+            node.getParam().apply(this);
         }
-        outADectab2Dectab2(node);
+        outAParam2Param2(node);
     }
 
-    public void inAVideDectab2(AVideDectab2 node)
+    public void inAVideParam2(AVideParam2 node)
     {
         defaultIn(node);
     }
 
-    public void outAVideDectab2(AVideDectab2 node)
+    public void outAVideParam2(AVideParam2 node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAVideDectab2(AVideDectab2 node)
+    public void caseAVideParam2(AVideParam2 node)
     {
-        inAVideDectab2(node);
-        outAVideDectab2(node);
+        inAVideParam2(node);
+        outAVideParam2(node);
     }
 
     public void inADecvar(ADecvar node)
@@ -859,9 +859,9 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getParentheseOuvrante().apply(this);
         }
-        if(node.getDectab() != null)
+        if(node.getParam() != null)
         {
-            node.getDectab().apply(this);
+            node.getParam().apply(this);
         }
         if(node.getParentheseFermante() != null)
         {

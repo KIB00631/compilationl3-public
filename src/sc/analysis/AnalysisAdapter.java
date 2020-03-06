@@ -231,25 +231,25 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseADectabDectab(ADectabDectab node)
+    public void caseADecparamParam(ADecparamParam node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAVideDectab(AVideDectab node)
+    public void caseAVideParam(AVideParam node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseADectab2Dectab2(ADectab2Dectab2 node)
+    public void caseAParam2Param2(AParam2Param2 node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAVideDectab2(AVideDectab2 node)
+    public void caseAVideParam2(AVideParam2 node)
     {
         defaultCase(node);
     }

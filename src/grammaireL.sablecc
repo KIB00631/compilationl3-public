@@ -89,10 +89,10 @@ instrecriture = ecrire parenthese_ouvrante listeexp parenthese_fermante point_vi
 
 instrvide = point_virgule;
 
-dectab = {dectab} entier var dectab2 |
+param = {decparam} entier var param2 |
          {vide} ;
 
-dectab2 = {dectab2} virgule dectab |
+param2 = {param2} virgule param |
           {vide} ;
 
 decvar = entier var decvar2;
@@ -100,7 +100,7 @@ decvar = entier var decvar2;
 decvar2 = {decvar2} point_virgule |
           {listdecvar} virgule decvar;
 
-decfonction = identif parenthese_ouvrante dectab parenthese_fermante decfonction2;
+decfonction = identif parenthese_ouvrante param parenthese_fermante decfonction2;
 
 decfonction2 = {intrbloc} instrbloc |
                {listdecvar} decvar decfonction2;
