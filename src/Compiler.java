@@ -3,7 +3,7 @@ import sc.parser.*;
 import sc.lexer.*;
 import sc.node.*;
 import sa.*;
-//import ts.*;
+import ts.*;
 //import c3a.*;
 //import nasm.*;
 //import fg.*;
@@ -34,13 +34,13 @@ public class Compiler
 	    
 	    System.out.println("[SC]");
 	    tree.apply(new Sc2Xml(baseName));
-/*
+
 	    System.out.println("[SA]");
 	    Sc2sa sc2sa = new Sc2sa();
 	    tree.apply(sc2sa);
 	    SaNode saRoot = sc2sa.getRoot();
 	    new Sa2Xml(saRoot, baseName);
-
+/*
 	    System.out.println("[TABLE SYMBOLES]");
 	    Ts table = new Sa2ts(saRoot).getTableGlobale();
 	    table.afficheTout(baseName);

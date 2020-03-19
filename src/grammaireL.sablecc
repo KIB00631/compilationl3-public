@@ -48,10 +48,11 @@ espaces, commentaire;
 
 Productions
 
-programme = base listdecfonction ;
+programme =  base listdecfonction ;
 
-base = {decvar} decvar |
-        {void} ;
+base = {base} listedecvar point_virgule|
+        {vide} ;
+
 listdecfonction = {decfonctionboucle} decfonction listdecfonction |
                     {decfonction} decfonction;
 
@@ -67,10 +68,7 @@ instr = {decvar} decvar |
 
 instrtantque = tantque exp faire instrbloc;
 
-
 instraffect = var egal exp point_virgule;
-
-
 
 b2 = {listinstr} instr b2 |
     {instrfin} instr;
@@ -81,31 +79,24 @@ s2 = {sinonsi} sinon instrsi |
         {sinon} sinon instrbloc |
         {vide} ;
 
-instrappel = identif parenthese_ouvrante listeexp parenthese_fermante point_virgule;
+instrappel = fct point_virgule;
 
 instrretour = retour exp point_virgule;
 
-instrecriture = ecrire parenthese_ouvrante listeexp parenthese_fermante point_virgule;
+instrecriture = ecrire parenthese_ouvrante exp parenthese_fermante point_virgule;
 
 instrvide = point_virgule;
 
-param = {decparam} entier var param2 |
-         {vide} ;
+listedecvar = decvar listedecvar2 ;
 
-param2 = {param2} virgule param |
+listedecvar2 = {listedecvar2} virgule decvar listedecvar2 |
           {vide} ;
 
-decvar = entier var decvar2;
+decvar = {var} entier identif |
+         {tab} entier identif crochet_ouvrant nombre crochet_fermant;
 
-decvar2 = {decvar2} point_virgule |
-          {listdecvar} virgule decvar;
-
-decfonction = identif parenthese_ouvrante param parenthese_fermante decfonction2;
-
-decfonction2 = {intrbloc} instrbloc |
-               {listdecvar} decvar decfonction2;
-
-
+decfonction = {avec}identif parenthese_ouvrante listedecvar parenthese_fermante base instrbloc|
+              {sans}identif parenthese_ouvrante parenthese_fermante base instrbloc;
 
 instrbloc = accolade_ouvrante b2 accolade_fermante;
 
@@ -144,7 +135,5 @@ listeexp = {listeexp} exp expbis |
 expbis = {expbis} virgule exp expbis |
             {vide};
 
-
-
-var = {var} identif |
+var =   {var} identif |
         {tab} identif crochet_ouvrant exp crochet_fermant;

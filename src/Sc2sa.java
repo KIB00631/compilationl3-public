@@ -6,6 +6,10 @@ public class Sc2sa extends DepthFirstAdapter {
     private SaNode returnValue;
 
 
+    public SaNode getRoot(){
+        return this.returnValue;
+    }
+
     @Override
     public void caseStart(Start node) {
         super.caseStart(node);
@@ -26,16 +30,17 @@ public class Sc2sa extends DepthFirstAdapter {
         this.returnValue = new SaProg(base,listFonction);
     }
 
+
     @Override
-    public void caseADecvarBase(ADecvarBase node) {
+    public void caseABaseBase(ABaseBase node) {
         SaLDec decVar;
-        node.getDecvar().apply(this);
+        node.getListedecvar().apply(this);
         decVar = (SaLDec) this.returnValue;
         this.returnValue = decVar;
     }
 
     @Override
-    public void caseAVoidBase(AVoidBase node) {
+    public void caseAVideBase(AVideBase node) {
         this.returnValue = null;
     }
 
@@ -101,10 +106,10 @@ public class Sc2sa extends DepthFirstAdapter {
 
     @Override
     public void caseAInstrappelInstr(AInstrappelInstr node) {
-        SaAppel instrSi;
+        SaAppel appel;
         node.getInstrappel().apply(this);
-        instrSi = (SaAppel) this.returnValue;
-        this.returnValue = instrSi;
+        appel = (SaAppel) this.returnValue;
+        this.returnValue = appel;
     }
 
     @Override
@@ -218,588 +223,472 @@ public class Sc2sa extends DepthFirstAdapter {
     }
 
 
-    //ici la mort continue
-
     @Override
     public void caseAVideS2(AVideS2 node) {
-        inAVideS2(node);
-        outAVideS2(node);
+        this.returnValue = null;
     }
 
     @Override
     public void caseAInstrappel(AInstrappel node) {
-        inAInstrappel(node);
-        if (node.getIdentif() != null) {
-            node.getIdentif().apply(this);
-        }
-        if (node.getParentheseOuvrante() != null) {
-            node.getParentheseOuvrante().apply(this);
-        }
-        if (node.getListeexp() != null) {
-            node.getListeexp().apply(this);
-        }
-        if (node.getParentheseFermante() != null) {
-            node.getParentheseFermante().apply(this);
-        }
-        if (node.getPointVirgule() != null) {
-            node.getPointVirgule().apply(this);
-        }
-        outAInstrappel(node);
+        SaAppel fct;
+        node.getFct().apply(this);
+        fct = (SaAppel) this.returnValue;
+
+        this.returnValue = fct;
     }
 
     @Override
     public void caseAInstrretour(AInstrretour node) {
-        inAInstrretour(node);
-        if (node.getRetour() != null) {
-            node.getRetour().apply(this);
-        }
-        if (node.getExp() != null) {
-            node.getExp().apply(this);
-        }
-        if (node.getPointVirgule() != null) {
-            node.getPointVirgule().apply(this);
-        }
-        outAInstrretour(node);
+        SaExp exp;
+
+        node.getExp().apply(this);
+        exp = (SaExp) this.returnValue;
+
+        this.returnValue = new SaInstRetour(exp);
     }
 
     @Override
     public void caseAInstrecriture(AInstrecriture node) {
-        inAInstrecriture(node);
-        if (node.getEcrire() != null) {
-            node.getEcrire().apply(this);
-        }
-        if (node.getParentheseOuvrante() != null) {
-            node.getParentheseOuvrante().apply(this);
-        }
-        if (node.getListeexp() != null) {
-            node.getListeexp().apply(this);
-        }
-        if (node.getParentheseFermante() != null) {
-            node.getParentheseFermante().apply(this);
-        }
-        if (node.getPointVirgule() != null) {
-            node.getPointVirgule().apply(this);
-        }
-        outAInstrecriture(node);
+        SaExp exp;
+
+        node.getExp().apply(this);
+        exp = (SaExp) this.returnValue;
+
+        this.returnValue = new SaInstEcriture(exp);
+
     }
 
     @Override
     public void caseAInstrvide(AInstrvide node) {
-        inAInstrvide(node);
-        if (node.getPointVirgule() != null) {
-            node.getPointVirgule().apply(this);
-        }
-        outAInstrvide(node);
+        this.returnValue = null;
+    }
+
+    @Override
+    public void caseAListedecvar(AListedecvar node) {
+        SaLDec lVar;
+        SaDec var;
+
+        node.getListedecvar2().apply(this);
+        lVar = (SaLDec) this.returnValue;
+        node.getDecvar().apply(this);
+        var = (SaDec) this.returnValue;
+
+        this.returnValue = new SaLDec(var,lVar);
     }
 
 
     @Override
-    public void caseADecparamParam(ADecparamParam node)
+    public void caseAListedecvar2Listedecvar2(AListedecvar2Listedecvar2 node) {
+        SaLDec lVar;
+        SaDec var;
+
+        node.getListedecvar2().apply(this);
+        lVar = (SaLDec) this.returnValue;
+        node.getDecvar().apply(this);
+        var = (SaDec) this.returnValue;
+
+        this.returnValue = new SaLDec(var,lVar);
+    }
+
+    @Override
+    public void caseAVideListedecvar2(AVideListedecvar2 node) {
+        this.returnValue = null;
+    }
+
+    @Override
+    public void caseAVarDecvar(AVarDecvar node){
+        String name;
+
+        name = node.getIdentif().getText();
+
+        this.returnValue = new SaDecVar(name) ;
+    }
+
+    @Override
+    public void caseATabDecvar(ATabDecvar node){
+        String name;
+        int taille;
+
+        name = node.getIdentif().getText();
+        taille = Integer.parseInt(node.getNombre().getText());
+
+        this.returnValue = new SaDecTab(name,taille);
+    }
+
+
+    @Override
+    public void caseAAvecDecfonction(AAvecDecfonction node)
     {
-        inADecparamParam(node);
-        if(node.getEntier() != null)
-        {
-            node.getEntier().apply(this);
-        }
-        if(node.getVar() != null)
-        {
-            node.getVar().apply(this);
-        }
-        if(node.getParam2() != null)
-        {
-            node.getParam2().apply(this);
-        }
-        outADecparamParam(node);
+        String name;
+        SaLDec param;
+        SaLDec lDecVar;
+        SaInstBloc bloc;
+
+        name = node.getIdentif().getText();
+
+        node.getListedecvar().apply(this);
+        param = (SaLDec) this.returnValue;
+
+        node.getBase().apply(this);
+        lDecVar = (SaLDec) this.returnValue;
+
+        node.getInstrbloc().apply(this);
+        bloc = (SaInstBloc) this.returnValue;
+
+        this.returnValue = new SaDecFonc(name,param,lDecVar,bloc);
+
     }
 
-
     @Override
-    public void caseAVideParam(AVideParam node)
+    public void caseASansDecfonction(ASansDecfonction node)
     {
-        inAVideParam(node);
-        outAVideParam(node);
-    }
+        String name;
+        SaLDec lDecVar;
+        SaInstBloc bloc;
 
-    @Override
-    public void caseAParam2Param2(AParam2Param2 node)
-    {
-        inAParam2Param2(node);
-        if(node.getVirgule() != null)
-        {
-            node.getVirgule().apply(this);
-        }
-        if(node.getParam() != null)
-        {
-            node.getParam().apply(this);
-        }
-        outAParam2Param2(node);
-    }
+        name = node.getIdentif().getText();
 
+        node.getBase().apply(this);
+        lDecVar = (SaLDec) this.returnValue;
 
-    @Override
-    public void caseAVideParam2(AVideParam2 node)
-    {
-        inAVideParam2(node);
-        outAVideParam2(node);
-    }
+        node.getInstrbloc().apply(this);
+        bloc = (SaInstBloc) this.returnValue;
 
+        this.returnValue = new SaDecFonc(name,null,lDecVar,bloc);
 
-    @Override
-    public void caseADecvar(ADecvar node) {
-        inADecvar(node);
-        if (node.getEntier() != null) {
-            node.getEntier().apply(this);
-        }
-        if (node.getVar() != null) {
-            node.getVar().apply(this);
-        }
-        if (node.getDecvar2() != null) {
-            node.getDecvar2().apply(this);
-        }
-        outADecvar(node);
-    }
-
-
-    @Override
-    public void caseADecvar2Decvar2(ADecvar2Decvar2 node) {
-        inADecvar2Decvar2(node);
-        if (node.getPointVirgule() != null) {
-            node.getPointVirgule().apply(this);
-        }
-        outADecvar2Decvar2(node);
-    }
-
-
-    @Override
-    public void caseAListdecvarDecvar2(AListdecvarDecvar2 node) {
-        inAListdecvarDecvar2(node);
-        if (node.getVirgule() != null) {
-            node.getVirgule().apply(this);
-        }
-        if (node.getDecvar() != null) {
-            node.getDecvar().apply(this);
-        }
-        outAListdecvarDecvar2(node);
-    }
-
-
-    @Override
-    public void caseADecfonction(ADecfonction node)
-    {
-        inADecfonction(node);
-        if(node.getIdentif() != null)
-        {
-            node.getIdentif().apply(this);
-        }
-        if(node.getParentheseOuvrante() != null)
-        {
-            node.getParentheseOuvrante().apply(this);
-        }
-        if(node.getParam() != null)
-        {
-            node.getParam().apply(this);
-        }
-        if(node.getParentheseFermante() != null)
-        {
-            node.getParentheseFermante().apply(this);
-        }
-        if(node.getDecfonction2() != null)
-        {
-            node.getDecfonction2().apply(this);
-        }
-        outADecfonction(node);
-    }
-
-
-        @Override
-    public void caseAIntrblocDecfonction2(AIntrblocDecfonction2 node) {
-        inAIntrblocDecfonction2(node);
-        if (node.getInstrbloc() != null) {
-            node.getInstrbloc().apply(this);
-        }
-        outAIntrblocDecfonction2(node);
-    }
-
-
-    @Override
-    public void caseAListdecvarDecfonction2(AListdecvarDecfonction2 node) {
-        inAListdecvarDecfonction2(node);
-        if (node.getDecvar() != null) {
-            node.getDecvar().apply(this);
-        }
-        if (node.getDecfonction2() != null) {
-            node.getDecfonction2().apply(this);
-        }
-        outAListdecvarDecfonction2(node);
     }
 
 
     @Override
     public void caseAInstrbloc(AInstrbloc node) {
-        inAInstrbloc(node);
-        if (node.getAccoladeOuvrante() != null) {
-            node.getAccoladeOuvrante().apply(this);
-        }
-        if (node.getB2() != null) {
-            node.getB2().apply(this);
-        }
-        if (node.getAccoladeFermante() != null) {
-            node.getAccoladeFermante().apply(this);
-        }
-        outAInstrbloc(node);
+        SaLInst lInstr;
+
+        node.getB2().apply(this);
+        lInstr = (SaLInst) this.returnValue;
+
+        this.returnValue = new SaInstBloc(lInstr);
     }
 
 
     @Override
     public void caseAOuExp(AOuExp node) {
-        inAOuExp(node);
-        if (node.getExp() != null) {
-            node.getExp().apply(this);
-        }
-        if (node.getOu() != null) {
-            node.getOu().apply(this);
-        }
-        if (node.getExp2() != null) {
-            node.getExp2().apply(this);
-        }
-        outAOuExp(node);
+        SaExp exp1;
+        SaExp exp2;
+
+        node.getExp().apply(this);
+        exp1 = (SaExp) this.returnValue;
+
+        node.getExp2().apply(this);
+        exp2 = (SaExp) this.returnValue;
+
+        this.returnValue = new SaExpOr(exp1,exp2);
     }
 
 
     @Override
     public void caseAExp2Exp(AExp2Exp node) {
-        inAExp2Exp(node);
-        if (node.getExp2() != null) {
-            node.getExp2().apply(this);
-        }
-        outAExp2Exp(node);
+        SaExp exp1;
+
+        node.getExp2().apply(this);
+        exp1 = (SaExp) this.returnValue;
+
+        this.returnValue = exp1;
     }
 
 
     @Override
     public void caseAEtExp2(AEtExp2 node) {
-        inAEtExp2(node);
-        if (node.getExp2() != null) {
-            node.getExp2().apply(this);
-        }
-        if (node.getEt() != null) {
-            node.getEt().apply(this);
-        }
-        if (node.getExp3() != null) {
-            node.getExp3().apply(this);
-        }
-        outAEtExp2(node);
+        SaExp exp1;
+        SaExp exp2;
+
+        node.getExp2().apply(this);
+        exp1 = (SaExp) this.returnValue;
+
+        node.getExp3().apply(this);
+        exp2 = (SaExp) this.returnValue;
+
+        this.returnValue = new SaExpAnd(exp1,exp2);
     }
 
 
     @Override
     public void caseAExp3Exp2(AExp3Exp2 node) {
-        inAExp3Exp2(node);
-        if (node.getExp3() != null) {
-            node.getExp3().apply(this);
-        }
-        outAExp3Exp2(node);
+        SaExp exp1;
+
+        node.getExp3().apply(this);
+        exp1 = (SaExp) this.returnValue;
+
+        this.returnValue = exp1;
     }
 
 
     @Override
     public void caseAEgalExp3(AEgalExp3 node) {
-        inAEgalExp3(node);
-        if (node.getExp3() != null) {
-            node.getExp3().apply(this);
-        }
-        if (node.getEgal() != null) {
-            node.getEgal().apply(this);
-        }
-        if (node.getExp4() != null) {
-            node.getExp4().apply(this);
-        }
-        outAEgalExp3(node);
+        SaExp exp1;
+        SaExp exp2;
+
+        node.getExp3().apply(this);
+        exp1 = (SaExp) this.returnValue;
+
+        node.getExp4().apply(this);
+        exp2 = (SaExp) this.returnValue;
+
+        this.returnValue = new SaExpEqual(exp1,exp2);
     }
 
 
     @Override
     public void caseAInferieurExp3(AInferieurExp3 node) {
-        inAInferieurExp3(node);
-        if (node.getExp3() != null) {
-            node.getExp3().apply(this);
-        }
-        if (node.getInferieur() != null) {
-            node.getInferieur().apply(this);
-        }
-        if (node.getExp4() != null) {
-            node.getExp4().apply(this);
-        }
-        outAInferieurExp3(node);
+        SaExp exp1;
+        SaExp exp2;
+
+        node.getExp3().apply(this);
+        exp1 = (SaExp) this.returnValue;
+
+        node.getExp4().apply(this);
+        exp2 = (SaExp) this.returnValue;
+
+        this.returnValue = new SaExpInf(exp1,exp2);
     }
 
 
     @Override
     public void caseAExp4Exp3(AExp4Exp3 node) {
-        inAExp4Exp3(node);
-        if (node.getExp4() != null) {
-            node.getExp4().apply(this);
-        }
-        outAExp4Exp3(node);
+        SaExp exp1;
+
+        node.getExp4().apply(this);
+        exp1 = (SaExp) this.returnValue;
+
+        this.returnValue = exp1;
     }
 
 
     @Override
     public void caseAPlusExp4(APlusExp4 node) {
-        inAPlusExp4(node);
-        if (node.getExp4() != null) {
-            node.getExp4().apply(this);
-        }
-        if (node.getPlus() != null) {
-            node.getPlus().apply(this);
-        }
-        if (node.getExp5() != null) {
-            node.getExp5().apply(this);
-        }
-        outAPlusExp4(node);
+        SaExp exp1;
+        SaExp exp2;
+
+        node.getExp4().apply(this);
+        exp1 = (SaExp) this.returnValue;
+
+        node.getExp5().apply(this);
+        exp2 = (SaExp) this.returnValue;
+
+        this.returnValue = new SaExpAdd(exp1,exp2);
     }
 
 
     @Override
     public void caseAMoinsExp4(AMoinsExp4 node) {
-        inAMoinsExp4(node);
-        if (node.getExp4() != null) {
-            node.getExp4().apply(this);
-        }
-        if (node.getMoins() != null) {
-            node.getMoins().apply(this);
-        }
-        if (node.getExp5() != null) {
-            node.getExp5().apply(this);
-        }
-        outAMoinsExp4(node);
+        SaExp exp1;
+        SaExp exp2;
+
+        node.getExp4().apply(this);
+        exp1 = (SaExp) this.returnValue;
+
+        node.getExp5().apply(this);
+        exp2 = (SaExp) this.returnValue;
+
+        this.returnValue = new SaExpSub(exp1,exp2);
     }
 
 
     @Override
     public void caseAExp5Exp4(AExp5Exp4 node) {
-        inAExp5Exp4(node);
-        if (node.getExp5() != null) {
-            node.getExp5().apply(this);
-        }
-        outAExp5Exp4(node);
+        SaExp exp1;
+
+        node.getExp5().apply(this);
+        exp1 = (SaExp) this.returnValue;
+
+        this.returnValue = exp1;
     }
 
 
     @Override
     public void caseAFoisExp5(AFoisExp5 node) {
-        inAFoisExp5(node);
-        if (node.getExp5() != null) {
-            node.getExp5().apply(this);
-        }
-        if (node.getFois() != null) {
-            node.getFois().apply(this);
-        }
-        if (node.getExp6() != null) {
-            node.getExp6().apply(this);
-        }
-        outAFoisExp5(node);
+        SaExp exp1;
+        SaExp exp2;
+
+        node.getExp5().apply(this);
+        exp1 = (SaExp) this.returnValue;
+
+        node.getExp6().apply(this);
+        exp2 = (SaExp) this.returnValue;
+
+        this.returnValue = new SaExpMult(exp1,exp2);
     }
 
 
     @Override
     public void caseADiviseExp5(ADiviseExp5 node) {
-        inADiviseExp5(node);
-        if (node.getExp5() != null) {
-            node.getExp5().apply(this);
-        }
-        if (node.getDivise() != null) {
-            node.getDivise().apply(this);
-        }
-        if (node.getExp6() != null) {
-            node.getExp6().apply(this);
-        }
-        outADiviseExp5(node);
+        SaExp exp1;
+        SaExp exp2;
+
+        node.getExp5().apply(this);
+        exp1 = (SaExp) this.returnValue;
+
+        node.getExp6().apply(this);
+        exp2 = (SaExp) this.returnValue;
+
+        this.returnValue = new SaExpDiv(exp1,exp2);
     }
 
 
     @Override
     public void caseAExp6Exp5(AExp6Exp5 node) {
-        inAExp6Exp5(node);
-        if (node.getExp6() != null) {
-            node.getExp6().apply(this);
-        }
-        outAExp6Exp5(node);
+        SaExp exp1;
+
+        node.getExp6().apply(this);
+        exp1 = (SaExp) this.returnValue;
+
+        this.returnValue = exp1;
     }
 
 
     @Override
     public void caseANonExp6(ANonExp6 node) {
-        inANonExp6(node);
-        if (node.getNon() != null) {
-            node.getNon().apply(this);
-        }
-        if (node.getExp6() != null) {
-            node.getExp6().apply(this);
-        }
-        outANonExp6(node);
+        SaExp exp1;
+
+        node.getExp6().apply(this);
+        exp1 = (SaExp) this.returnValue;
+
+        this.returnValue = new SaExpNot(exp1);
     }
 
 
     @Override
     public void caseAExp7Exp6(AExp7Exp6 node) {
-        inAExp7Exp6(node);
-        if (node.getExp7() != null) {
-            node.getExp7().apply(this);
-        }
-        outAExp7Exp6(node);
+        SaExp exp1;
+
+        node.getExp7().apply(this);
+        exp1 = (SaExp) this.returnValue;
+
+
+        this.returnValue = exp1;
     }
 
 
     @Override
     public void caseAParentheseExp7(AParentheseExp7 node) {
-        inAParentheseExp7(node);
-        if (node.getParentheseOuvrante() != null) {
-            node.getParentheseOuvrante().apply(this);
-        }
-        if (node.getExp() != null) {
-            node.getExp().apply(this);
-        }
-        if (node.getParentheseFermante() != null) {
-            node.getParentheseFermante().apply(this);
-        }
-        outAParentheseExp7(node);
+        SaExp exp;
+
+        node.getExp().apply(this);
+        exp = (SaExp) this.returnValue;
+
+        this.returnValue = exp;
     }
 
 
     @Override
     public void caseAFctExp7(AFctExp7 node) {
-        inAFctExp7(node);
-        if (node.getFct() != null) {
-            node.getFct().apply(this);
-        }
-        outAFctExp7(node);
+        SaAppel fct;
+
+        node.getFct().apply(this);
+        fct = (SaAppel) this.returnValue;
+
+        this.returnValue = new SaExpAppel(fct);
     }
 
 
     @Override
     public void caseANombreExp7(ANombreExp7 node) {
-        inANombreExp7(node);
-        if (node.getNombre() != null) {
-            node.getNombre().apply(this);
-        }
-        outANombreExp7(node);
+        int nbr;
+
+        nbr = Integer.parseInt(node.getNombre().getText());
+
+        this.returnValue = new SaExpInt(nbr);
     }
 
 
     @Override
     public void caseAVarExp7(AVarExp7 node) {
-        inAVarExp7(node);
-        if (node.getVar() != null) {
-            node.getVar().apply(this);
-        }
-        outAVarExp7(node);
+        SaVar var;
+
+        node.getVar().apply(this);
+        var = (SaVar) this.returnValue;
+
+        this.returnValue = new SaExpVar(var);
     }
 
 
     @Override
     public void caseALireExp7(ALireExp7 node) {
-        inALireExp7(node);
-        if (node.getLire() != null) {
-            node.getLire().apply(this);
-        }
-        if (node.getParentheseOuvrante() != null) {
-            node.getParentheseOuvrante().apply(this);
-        }
-        if (node.getParentheseFermante() != null) {
-            node.getParentheseFermante().apply(this);
-        }
-        outALireExp7(node);
+        this.returnValue = new SaExpLire();
     }
 
 
     @Override
     public void caseAFct(AFct node) {
-        inAFct(node);
-        if (node.getIdentif() != null) {
-            node.getIdentif().apply(this);
-        }
-        if (node.getParentheseOuvrante() != null) {
-            node.getParentheseOuvrante().apply(this);
-        }
-        if (node.getListeexp() != null) {
-            node.getListeexp().apply(this);
-        }
-        if (node.getParentheseFermante() != null) {
-            node.getParentheseFermante().apply(this);
-        }
-        outAFct(node);
+        String identif;
+        SaLExp param;
+
+       identif = node.getIdentif().getText();
+        node.getListeexp().apply(this);
+        param = (SaLExp) this.returnValue;
+
+        this.returnValue = new SaAppel(identif, param);
     }
 
 
     @Override
     public void caseAListeexpListeexp(AListeexpListeexp node) {
-        inAListeexpListeexp(node);
-        if (node.getExp() != null) {
-            node.getExp().apply(this);
-        }
-        if (node.getExpbis() != null) {
-            node.getExpbis().apply(this);
-        }
-        outAListeexpListeexp(node);
+        SaExp exp;
+        SaLExp lExp;
+
+        node.getExp().apply(this);
+        exp = (SaExp) this.returnValue;
+        node.getExpbis().apply(this);
+        lExp = (SaLExp) this.returnValue;
+
+        this.returnValue = new SaLExp(exp, lExp);
     }
 
 
     @Override
     public void caseAVideListeexp(AVideListeexp node) {
-        inAVideListeexp(node);
-        outAVideListeexp(node);
+        this.returnValue = null;
     }
 
 
     @Override
     public void caseAExpbisExpbis(AExpbisExpbis node) {
-        inAExpbisExpbis(node);
-        if (node.getVirgule() != null) {
-            node.getVirgule().apply(this);
-        }
-        if (node.getExp() != null) {
-            node.getExp().apply(this);
-        }
-        if (node.getExpbis() != null) {
-            node.getExpbis().apply(this);
-        }
-        outAExpbisExpbis(node);
+        SaExp exp;
+        SaLExp lExp;
+
+        node.getExp().apply(this);
+        exp = (SaExp) this.returnValue;
+        node.getExpbis().apply(this);
+        lExp = (SaLExp) this.returnValue;
+
+        this.returnValue = new SaLExp(exp, lExp);
     }
 
 
     @Override
     public void caseAVideExpbis(AVideExpbis node) {
-        inAVideExpbis(node);
-        outAVideExpbis(node);
+        this.returnValue = null;
     }
 
 
     @Override
     public void caseAVarVar(AVarVar node) {
-        inAVarVar(node);
-        if (node.getIdentif() != null) {
-            node.getIdentif().apply(this);
-        }
-        outAVarVar(node);
+        String nom;
+
+        nom = node.getIdentif().getText();
+
+        returnValue = new SaVarSimple(nom);
     }
 
 
     @Override
     public void caseATabVar(ATabVar node) {
-        inATabVar(node);
-        if (node.getIdentif() != null) {
-            node.getIdentif().apply(this);
-        }
-        if (node.getCrochetOuvrant() != null) {
-            node.getCrochetOuvrant().apply(this);
-        }
-        if (node.getExp() != null) {
-            node.getExp().apply(this);
-        }
-        if (node.getCrochetFermant() != null) {
-            node.getCrochetFermant().apply(this);
-        }
-        outATabVar(node);
+        String nom;
+        SaExp taille;
+
+        nom = node.getIdentif().getText();
+        node.getExp().apply(this);
+        taille = (SaExp) this.returnValue;
+
+        returnValue = new SaVarIndicee(nom, taille);
     }
 }
